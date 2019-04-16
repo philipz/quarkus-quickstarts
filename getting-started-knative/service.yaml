@@ -1,0 +1,26 @@
+apiVersion: serving.knative.dev/v1alpha1
+kind: Service
+metadata:
+  name: quarkus-hello-java
+  namespace: default
+spec:
+  runLatest:
+    configuration:
+      revisionTemplate:
+        spec:
+          container:
+            image: docker.io/philipz/quarkus_hello
+            env:
+              - name: TARGET
+                value: "Quarkus Hello Sample v1"
+# kubectl get service --namespace=istio-system knative-ingressgateway 
+# Find the hostname of the application:
+# kubectl get ksvc helloworld --output jsonpath='{.status.domain}'
+# The hostname of the application should be helloworld.default.example.com.
+# Now, use curl to make the first request to this function (replace the IP_ADDRESS below with the gateway's external IP address you found earlier):
+# curl -H "Host: helloworld.default.example.com" http://IP_ADDRESS
+# Hello world!
+# After you made a request to the helloworld Service, you will see that a Pod is created on the Kubernetes cluster to serve the request. Query the list of Pods deployed:
+# kubectl get pods
+# NAME                                     READY   STATUS    AGE
+# helloworld-00001-deployment-58b8b4d79b   3/3     Running   1m
